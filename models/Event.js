@@ -1,6 +1,10 @@
 const { Schema, model } = require('mongoose')
 
 const eventSchema = Schema({
+    name: {
+        type: String,
+        required: true
+    },
     team1: {
         type: String,
         required: true

@@ -8,7 +8,7 @@ const getCategories = async(req, res) => {
             category
         })
     } catch (error) {
-        res.status(400).json({
+        res.status(500).json({
             ok: false,
             msg: 'Please contact to support',
             error: error
