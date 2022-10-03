@@ -1,0 +1,17 @@
+{
+  "name": "sprint-3-nodejs-mongo",
+  "version": "1.0.0",
+  "description": "Sprint 3",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "express-validator": "^6.14.2",
+    "mongoose": "^6.6.3",
+    "nodemon": "^2.0.20"
+  }
+}
