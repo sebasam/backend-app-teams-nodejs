@@ -9,11 +9,11 @@ const eventSchema = Schema({
         type: String,
         required: true
     },
-    marcador1: {
+    points1: {
         type: Number,
         required: true
     },
-    marcador2: {
+    points2: {
         type: Number,
         required: true
     },
