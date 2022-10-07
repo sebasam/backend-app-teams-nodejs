@@ -8,7 +8,7 @@ const users = [
 ]
 
 const teams = [
-    body('name', 'Enter a valid name!').isString({ min: 4 }).notEmpty().escape().trim()
+    
 ]
 
 const categories = [

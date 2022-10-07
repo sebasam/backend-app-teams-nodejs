@@ -5,6 +5,9 @@ const teamSchema = Schema({
         type: String,
         required: true,
         unique: true
+    },
+    image: {
+        type: String
     }
 })
 

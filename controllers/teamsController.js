@@ -18,20 +18,23 @@ const getTeams = async(req, res) => {
 
 const createTeam = async(req, res) => {
     const { name } = req.body
+    const image = req.file
     try {
         const team = await Team.findOne({ name: name })
         if(team) return res.status(400).json({
             ok: false,
             msg: 'This team is already exist!!'
-        })
+        })        
         const dbteam = new Team({
-            name: name
+            name: name,
+            image: image.originalname
+            
         })
         dbteam.save()
-        return res.status(200).json({
+        return res.status(201).json({
             ok: true,
             msg: 'Team created!'
-        })
+        })        
     } catch (error) {
         res.status(500).json({
             ok: false,
@@ -86,6 +89,12 @@ const updateTeam = async(req, res) => {
             error: error
         })
     }
+}
+
+const uploadImg = async(req, res) => {
+    
+
+    const user = await user.findById()
 }
 
 module.exports = {
