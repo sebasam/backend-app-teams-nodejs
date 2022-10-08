@@ -1,4 +1,5 @@
 const Team = require('./../models/Team')
+const Category = require('./../models/Category')
 
 const getTeams = async(req, res) => {
     try {
@@ -17,17 +18,19 @@ const getTeams = async(req, res) => {
 }
 
 const createTeam = async(req, res) => {
-    const { name } = req.body
+    const { name, category } = req.body
     const image = req.file
     try {
         const team = await Team.findOne({ name: name })
-        if(team) return res.status(400).json({
+        const myCategory = await Category.findOne({ name: category })
+        if(team || !myCategory) return res.status(400).json({
             ok: false,
-            msg: 'This team is already exist!!'
+            msg: 'Team is already exist!! or category Doesnt exist!'
         })        
         const dbteam = new Team({
             name: name,
-            image: image.originalname
+            image: image.originalname,
+            category: category
             
         })
         dbteam.save()
@@ -89,12 +92,6 @@ const updateTeam = async(req, res) => {
             error: error
         })
     }
-}
-
-const uploadImg = async(req, res) => {
-    
-
-    const user = await user.findById()
 }
 
 module.exports = {

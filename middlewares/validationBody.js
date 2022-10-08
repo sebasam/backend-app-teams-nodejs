@@ -1,4 +1,4 @@
-const { body } = require('express-validator')
+const { body, check } = require('express-validator')
 
 const users = [
     body('name', 'Name cannot be empty or accept numbers!').isString().notEmpty().trim(),
@@ -8,7 +8,9 @@ const users = [
 ]
 
 const teams = [
-    
+    check('name', 'Enter a valid name!').isString({ min: 4 }).notEmpty().escape().trim(),
+    check('image', 'Image cannot be empty').notEmpty(),
+    check('category', 'Enter a valid category!').isString({ min: 4 }).notEmpty().escape().trim()
 ]
 
 const categories = [

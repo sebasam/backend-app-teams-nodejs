@@ -7,7 +7,12 @@ const teamSchema = Schema({
         unique: true
     },
     image: {
-        type: String
+        type: String,
+        required: true
+    },
+    category: {
+        type: String,
+        required: true
     }
 })
 
