@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const { upload } = require('../middlewares/upload')
-const { getTeams, createTeam, updateTeam, deleteTeam } = require('./../controllers/teamsController')
+const { upload} = require('../middlewares/upload')
+const { getTeams, createTeam, updateTeam, deleteTeam, getTeamImage } = require('./../controllers/teamsController')
+
+router.get('/:name', getTeamImage)
 
 router.get('/', getTeams)
 

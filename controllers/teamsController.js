@@ -1,5 +1,16 @@
 const Team = require('./../models/Team')
 const Category = require('./../models/Category')
+const path = require('path')
+
+const getTeamImage = async(req, res, next) => {
+    const { name } = req.params
+    try {
+        const team = await Team.findOne({ name: name })
+        res.sendFile(path.join(__dirname, '..', `public/images/${ team.imageName }`))
+    } catch (error) {
+        next(error)
+    }
+}
 
 const getTeams = async(req, res) => {
     try {
@@ -17,7 +28,7 @@ const getTeams = async(req, res) => {
     }
 }
 
-const createTeam = async(req, res) => {
+const createTeam = async(req, res, next) => {
     const { name, category } = req.body
     const image = req.file
     try {
@@ -29,7 +40,8 @@ const createTeam = async(req, res) => {
         })        
         const dbteam = new Team({
             name: name,
-            image: image.originalname,
+            image: `http://localhost:3001/public/images/${ image.originalname }`,
+            imageName: image.originalname,
             category: category
             
         })
@@ -39,11 +51,8 @@ const createTeam = async(req, res) => {
             msg: 'Team created!'
         })        
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Please contact to support',
-            error: error
-        })
+        next(error)
+        console.log(error)
     }
 }
 
@@ -98,5 +107,6 @@ module.exports = {
     getTeams,
     createTeam,
     deleteTeam,
-    updateTeam
+    updateTeam,
+    getTeamImage
 }

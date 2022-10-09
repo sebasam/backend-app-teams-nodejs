@@ -7,12 +7,6 @@ const users = [
     body('password', 'The password must contain uppercase, lowercase, numbers and a special character').isStrongPassword()
 ]
 
-const teams = [
-    check('name', 'Enter a valid name!').isString({ min: 4 }).notEmpty().escape().trim(),
-    check('image', 'Image cannot be empty').notEmpty(),
-    check('category', 'Enter a valid category!').isString({ min: 4 }).notEmpty().escape().trim()
-]
-
 const categories = [
     body('name', 'Enter a valid name!').isString({ min: 4 }).notEmpty().trim()
 ]
@@ -28,7 +22,6 @@ const events = [
 
 module.exports = {
     users,
-    teams,
     categories,
     events
 }
