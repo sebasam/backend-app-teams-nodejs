@@ -13,6 +13,25 @@ const getTeamImage = async(req, res, next) => {
     }
 }
 
+const getTeamsByCategory = async(req, res, next) => {
+    const { category } = req.params
+    try {
+        const myCategory = await Category.findOne({ name: category })
+        if(myCategory) {
+            const team = await Team.find({ category: category })
+            return res.status(200).json({
+                team
+            })
+        }
+        return res.status(404).json({
+            msg: 'Category Doesnt exist'
+        })
+        console.log(team)
+    } catch (error) {
+        next(error)
+    }
+}
+
 const getTeams = async(req, res) => {
     try {
         const team = await Team.find()
@@ -113,5 +132,6 @@ module.exports = {
     createTeam,
     deleteTeam,
     updateTeam,
-    getTeamImage
+    getTeamImage,
+    getTeamsByCategory
 }
