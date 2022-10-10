@@ -1,5 +1,6 @@
 const Team = require('./../models/Team')
 const Category = require('./../models/Category')
+const Event = require('./../models/Event')
 const path = require('path')
 const fs = require('fs')
 
@@ -26,7 +27,6 @@ const getTeamsByCategory = async(req, res, next) => {
         return res.status(404).json({
             msg: 'Category Doesnt exist'
         })
-        console.log(team)
     } catch (error) {
         next(error)
     }
@@ -81,9 +81,12 @@ const deleteTeam = async(req, res) => {
     try {
         const myTeam = await Team.findOne({ id: id })
         fs.unlinkSync(path.join(__dirname, '..', `public/images/${ myTeam.imageName }`))
-        const team = await Team.findOneAndDelete({ id: id })
-        
-        if(team === null) {
+        const event1 = await Event.findOneAndDelete({ team1: myTeam.name })
+        const event2 = await Event.findOneAndDelete({ team2: myTeam.name })
+
+        myTeam.delete()
+                
+        if(myTeam === null) {
             return res.status(404).json({
                 ok: false,
                 msg: 'This ID not exists in database'

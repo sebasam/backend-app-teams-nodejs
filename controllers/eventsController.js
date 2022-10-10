@@ -1,4 +1,5 @@
 const Event = require('./../models/Event')
+const Team = require('./../models/Team')
 
 const getEvents = async(req, res) => {
     try {
@@ -20,6 +21,18 @@ const createEvent = async(req, res) => {
     const { team1, team2, category, gameDate } = req.body
     const points = 0    
     try {
+        const myTeam1 = await Team.findOne({ name: team1 })
+        const myTeam2 = await Team.findOne({ name: team2 })
+        if(!myTeam1 || !myTeam2) return res.status(404).json({
+            ok: false,
+            msg: 'Some of teams doesnt exist!'
+        })
+        if(myTeam1.category !== myTeam2.category) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Teams in differents categories cannot play'
+            })
+        }
         const eventName = `${ team1 } VS ${ team2 }`
         const event = await Event.findOne({ name: eventName })
         if(event) return res.status(400).json({

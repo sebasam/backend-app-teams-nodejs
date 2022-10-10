@@ -1,4 +1,5 @@
 const Category = require('./../models/Category')
+const Event = require('./../models/Event')
 
 const getCategories = async(req, res) => {
     try {
@@ -44,7 +45,9 @@ const createCategory = async(req, res) => {
 const deleteCategory = async(req, res) => {
     const id = req.params.id    
     try {
-        const category = await Category.findOneAndDelete({ _id: id })
+        const category = await Category.findOne({ _id: id })
+        await Event.findOneAndDelete({ category: category.name })
+        category.delete()
         if(category === null) {
             return res.status(404).json({
                 ok: false,
