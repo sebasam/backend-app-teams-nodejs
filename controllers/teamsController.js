@@ -109,10 +109,10 @@ const deleteTeam = async(req, res) => {
 }
 
 const updateTeam = async(req, res) => {
-    const id = req.params.id
+    const myname = req.params.name
     const { name } = req.body
     try {
-        const team = await Team.findByIdAndUpdate(id, { name: name })
+        const team = await Team.findOneAndUpdate(myname, { name: name })
         if(team === null) {
             return res.status(404).json({
                 ok: false,
