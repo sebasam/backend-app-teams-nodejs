@@ -11,7 +11,7 @@ router.get('/category/:category', getTeamsByCategory)
 
 router.post('/', upload, createTeam)
 
-router.delete('/delete/:id', deleteTeam)
+router.delete('/delete/:name', deleteTeam)
 
 router.put('/update/:id', upload, updateTeam)
 

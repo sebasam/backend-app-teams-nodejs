@@ -71,28 +71,30 @@ const createTeam = async(req, res, next) => {
             msg: 'Team created!'
         })        
     } catch (error) {
-        next(error)
-        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Please contact to support'
+        })
     }
 }
 
 const deleteTeam = async(req, res) => {
-    const id = req.params.id    
+    const name = req.params.name    
     try {
-        const myTeam = await Team.findOne({ id: id })
+        const myTeam = await Team.findOne({ name: name })
+        console.log(myTeam)
         fs.unlinkSync(path.join(__dirname, '..', `public/images/${ myTeam.imageName }`))
-        const event1 = await Event.findOneAndDelete({ team1: myTeam.name })
-        const event2 = await Event.findOneAndDelete({ team2: myTeam.name })
+        await Event.findOneAndDelete({ team1: myTeam.name })
+        await Event.findOneAndDelete({ team2: myTeam.name })
 
-        myTeam.delete()
-                
+        console.log(myTeam)
+        myTeam.delete()      
         if(myTeam === null) {
             return res.status(404).json({
                 ok: false,
                 msg: 'This ID not exists in database'
             })
-        }
-        
+        }        
         return res.status(200).json({
             ok: true,
             msg: 'Team deleted!!'
