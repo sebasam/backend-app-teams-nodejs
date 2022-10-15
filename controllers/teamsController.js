@@ -81,20 +81,31 @@ const createTeam = async(req, res, next) => {
 const deleteTeam = async(req, res) => {
     const name = req.params.name    
     try {
-        const myTeam = await Team.findOne({ name: name })
-        console.log(myTeam)
-        fs.unlinkSync(path.join(__dirname, '..', `public/images/${ myTeam.imageName }`))
-        await Event.findOneAndDelete({ team1: myTeam.name })
-        await Event.findOneAndDelete({ team2: myTeam.name })
-
-        console.log(myTeam)
-        myTeam.delete()      
+        const myTeam = await Team.findOne({ name: name })        
+        const event1 = await Event.find({ team1: myTeam.name })
+        if(event1.length === 0){
+            console.log(event1)
+        }else{
+            for (const myEvent of event1) {
+                await Event.findOneAndDelete({ team1: myEvent.team1 })
+            }
+        }
+        const event2 = await Event.find({ team2: myTeam.name })
+        if(event2.length === 0){
+            console.log(event2)
+        }else{
+            for (const myEvent of event2) {
+                await Event.findOneAndDelete({ team2: myEvent.team2 })
+            }
+        }
         if(myTeam === null) {
             return res.status(404).json({
                 ok: false,
                 msg: 'This ID not exists in database'
             })
-        }        
+        }
+        fs.unlinkSync(path.join(__dirname, '..', `public/images/${ myTeam.imageName }`))
+        myTeam.delete()
         return res.status(200).json({
             ok: true,
             msg: 'Team deleted!!'
@@ -105,6 +116,7 @@ const deleteTeam = async(req, res) => {
             msg: 'Invalid ID please try again',
             error: error
         })
+        console.log(error)
     }
 }
 
