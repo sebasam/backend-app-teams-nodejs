@@ -13,6 +13,6 @@ router.post('/', upload, createTeam)
 
 router.delete('/delete/:name', deleteTeam)
 
-router.put('/update/:id', upload, updateTeam)
+router.put('/update/:name', updateTeam)
 
 module.exports = router
