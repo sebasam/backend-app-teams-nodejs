@@ -95,6 +95,7 @@ const loginUser = async(req, res) => {
 
         return res.status(200).json({
             ok: true,
+            msg: 'Welcome to QuiimbaSports',
             id: dbUser._id,
             name: dbUser.name,
             email,
