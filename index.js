@@ -6,6 +6,8 @@ const api = require('./routes/api')
 const cors = require('cors')
 const path = require('path')
 
+require('dotenv').config()
+
 const dataBaseConnection = require('./db/config')
 dataBaseConnection()
 

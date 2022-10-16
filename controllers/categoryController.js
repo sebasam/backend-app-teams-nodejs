@@ -46,7 +46,14 @@ const deleteCategory = async(req, res) => {
     const id = req.params.id    
     try {
         const category = await Category.findOne({ _id: id })
-        await Event.findOneAndDelete({ category: category.name })
+        const event = await Event.find({ category: category.name })
+        if(event.length === 0) {
+            console.log(event)
+        } else {
+            for(const myEvent of event) {
+                await Event.findOneAndDelete({ category: category.name })
+            }
+        }
         category.delete()
         if(category === null) {
             return res.status(404).json({
