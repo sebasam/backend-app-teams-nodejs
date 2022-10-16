@@ -1,5 +1,6 @@
 const User = require('./../models/User')
 const bcrypt = require('bcrypt')
+const { generateToken } = require('./../helpers/jwtGenerate')
 
 const getUsers = async(req, res) => {
     try {
@@ -36,6 +37,8 @@ const createUser = async(req, res) => {
         const salt = bcrypt.genSaltSync()
         dbUser.password = bcrypt.hashSync( password, salt )
 
+        const token = await generateToken(dbUser._id, name)
+
         await dbUser.save()
 
         return res.status(200).json({
@@ -43,7 +46,8 @@ const createUser = async(req, res) => {
             id: dbUser.id,
             name: dbUser.name,
             email: dbUser.email,
-            password: dbUser.password
+            password: dbUser.password,
+            token: token
         })
     } catch (error) {
         return res.status(500).json({
@@ -70,6 +74,15 @@ const deleteUser = async(req, res) => {
             msg: 'ID invalid, please try again',
             error: error
         })
+    }
+}
+
+const loginUser = async(req, res) => {
+    const { email, password } = req.body
+    try {
+        
+    } catch (error) {
+        
     }
 }
 
