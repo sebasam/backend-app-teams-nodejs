@@ -80,14 +80,53 @@ const deleteUser = async(req, res) => {
 const loginUser = async(req, res) => {
     const { email, password } = req.body
     try {
-        
+        const dbUser = await User.findOne({ email })
+        if(!dbUser) return res.status(400).json({
+            ok: false,
+            msg: 'Email is not valid!'
+        })
+
+        const validatePassword = bcrypt.compareSync(password, dbUser.password)
+        if(!validatePassword) return res.status(400).json({
+            ok: false,
+            msg: 'Password not valid!!'
+        })
+        const token = await generateToken(dbUser._id, dbUser.name)
+
+        return res.status(200).json({
+            ok: true,
+            id: dbUser._id,
+            name: dbUser.name,
+            email,
+            token
+        })
     } catch (error) {
-        
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error',
+            error
+        })
     }
+}
+
+const validateJWT = async(req, res) => {
+    const { id } = req
+    const dbUser = await User.findById(id)
+    const token = await generateToken(id, dbUser.name)
+
+    return res.json({
+        ok: true,
+        id,
+        name: dbUser.name,
+        email: dbUser.email,
+        token
+    })
 }
 
 module.exports = {
     getUsers,
     createUser,
-    deleteUser
+    deleteUser,
+    loginUser,
+    validateJWT
 }
