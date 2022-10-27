@@ -1,0 +1,27 @@
+version: '1.0'
+
+services:
+  db:
+    image: mongo
+    restart: always,
+    volumes:
+      - 'dbdata:/data/db'
+  server:
+    build: .
+    restart: always
+    ports:
+      - '8081:8081'
+    depends_on:
+      - db
+    links:
+      - db
+  frontend:
+    build: ./public
+    restart: always
+    ports: '8089:8089'
+    depends_on:
+      - server
+    links:
+      - server
+volumes:
+  dbdata:
