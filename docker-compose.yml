@@ -10,11 +10,7 @@ services:
     build: .
     restart: always
     ports:
-      - '8081:8081'
-    depends_on:
-      - db    
-    links:
-      - db    
+      - '8081:8081'   
   frontend:
     build: ./public
     restart: always    
