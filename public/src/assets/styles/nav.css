@@ -1,0 +1,15 @@
+/*
+a:hover {
+    background: #33ffcc;
+    border-radius: 50%;
+    color: #7300e6 !important;
+}
+*/
+.myActive {
+    background: #33ffcc;
+    border-radius: 50%;
+    color: #7300e6 !important;
+}
+.mydisabled {
+    cursor: not-allowed;
+}
